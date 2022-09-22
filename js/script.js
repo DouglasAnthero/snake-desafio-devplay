@@ -5,7 +5,8 @@ let esquerda = 37,
     corpo = document.getElementById('corpo'),
     marginLeft = removePx(corpo.style.marginLeft),
     marginTop = removePx(corpo.style.marginTop);
-var teclaPressionada = 0;
+var teclaPressionada = 0,
+    teclaAtivada = 0;
 
 function movimento(tecla) {
     teclaPressionada = tecla.keyCode;
@@ -18,82 +19,91 @@ function movimento(tecla) {
 
     if (teclaPressionada == esquerda) {
         let i = 0;
+        if (teclaAtivada !== teclaPressionada) {
 
-        marginLeft = marginLeft - 50;
-        corpo.style.marginLeft = marginLeft + "px";
+            teclaAtivada = teclaPressionada;
+            console.log(teclaAtivada, teclaPressionada);
+            if (teclaAtivada !== direita) {
+                marginLeft = marginLeft - 50;
+                corpo.style.marginLeft = marginLeft + "px";
 
 
-        (function loopIt(i) {
-            setTimeout(function () {
-                if (teclaPressionada === 37) {
-                    marginLeft = marginLeft - 50;
-                    console.log(marginLeft, i, teclaPressionada, tecla.keyCode, "direita");
-                    corpo.style.marginLeft = marginLeft + "px";
-                    if (i < 24 && teclaPressionada === 37) loopIt(i + 1)
-                };
-            }, 500);
-        })(i)
-
+                (function loopIt(i) {
+                    setTimeout(function () {
+                        if (teclaPressionada === esquerda) {
+                            marginLeft = marginLeft - 50;
+                            corpo.style.marginLeft = marginLeft + "px";
+                            if (i < 24 && teclaPressionada === 37) loopIt(i + 1)
+                        };
+                    }, 500);
+                })(i)
+            };
+        };
     } else if (teclaPressionada == cima) {
         let i = 0;
+        if (teclaAtivada !== teclaPressionada) {
 
-        marginTop = marginTop - 50;
-        corpo.style.marginTop = marginTop + "px";
+            teclaAtivada = teclaPressionada;
+            marginTop = marginTop - 50;
+            corpo.style.marginTop = marginTop + "px";
 
-        (function loopIt(i) {
-            setTimeout(function () {
-                if (teclaPressionada === 38) {
-                    marginTop = marginTop - 50;
-                    console.log(marginTop, i, teclaPressionada, tecla.keyCode, "baixo");
-                    corpo.style.marginTop = marginTop + "px";
-                    if (i < 24 && teclaPressionada === 38) loopIt(i + 1)
-                };
-            }, 500);
-        })(i)
-
+            (function loopIt(i) {
+                setTimeout(function () {
+                    if (teclaPressionada === 38) {
+                        marginTop = marginTop - 50;
+                        console.log(marginTop, i, teclaPressionada, tecla.keyCode, "baixo");
+                        corpo.style.marginTop = marginTop + "px";
+                        if (i < 24 && teclaPressionada === 38) loopIt(i + 1)
+                    };
+                }, 500);
+            })(i)
+        };
 
 
     } else if (teclaPressionada == direita) {
         let i = 0;
+        if (teclaAtivada !== teclaPressionada) {
 
-        marginLeft = marginLeft + 50;
-        corpo.style.marginLeft = marginLeft + "px";
+            teclaAtivada = teclaPressionada;
+            marginLeft = marginLeft + 50;
+            corpo.style.marginLeft = marginLeft + "px";
 
 
-        (function loopIt(i) {
-            setTimeout(function () {
-                if (teclaPressionada === 39) {
-                    marginLeft = marginLeft + 50;
-                    console.log(marginLeft, i, teclaPressionada, tecla.keyCode, "direita");
-                    corpo.style.marginLeft = marginLeft + "px";
-                    if (i < 24 && teclaPressionada === 39) loopIt(i + 1)
-                };
-            }, 500);
-        })(i)
-
+            (function loopIt(i) {
+                setTimeout(function () {
+                    if (teclaPressionada === 39) {
+                        marginLeft = marginLeft + 50;
+                        console.log(marginLeft, i, teclaPressionada, tecla.keyCode, "direita");
+                        corpo.style.marginLeft = marginLeft + "px";
+                        if (i < 24 && teclaPressionada === 39) loopIt(i + 1)
+                    };
+                }, 500);
+            })(i)
+        };
 
 
     } else if (teclaPressionada == baixo) {
         let i = 0;
+        if (teclaAtivada !== teclaPressionada) {
 
-        marginTop = marginTop + 50;
-        corpo.style.marginTop = marginTop + "px";
+            teclaAtivada = teclaPressionada;
+            marginTop = marginTop + 50;
+            corpo.style.marginTop = marginTop + "px";
 
-        (function loopIt(i) {
-            setTimeout(function () {
-                if (teclaPressionada === 40) {
-                    marginTop = marginTop + 50;
-                    console.log(marginTop, i, teclaPressionada, tecla.keyCode, "baixo");
-                    corpo.style.marginTop = marginTop + "px";
-                    if (i < 24 && teclaPressionada === 40) loopIt(i + 1)
-                };
-            }, 500);
-        })(i)
+            (function loopIt(i) {
+                setTimeout(function () {
+                    if (teclaPressionada === 40) {
+                        marginTop = marginTop + 50;
+                        console.log(marginTop, i, teclaPressionada, tecla.keyCode, "baixo");
+                        corpo.style.marginTop = marginTop + "px";
+                        if (i < 24 && teclaPressionada === 40) loopIt(i + 1)
+                    };
+                }, 500);
+            })(i)
+        };
+    };
 
-    }
 
-    //   corpo.style.marginLeft = marginLeft + "px";
-    //   console.log(corpo.style.marginLeft);
 }
 
 function removePx(numero) {
