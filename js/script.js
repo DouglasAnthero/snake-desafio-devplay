@@ -6,6 +6,7 @@ let esquerda = 37,
 	ponto = document.getElementById('ponto'),
 	marginLeft = removePx(cabeca.style.marginLeft),
 	marginTop = removePx(cabeca.style.marginTop),
+	qtdCorpo = 0,
 	score = 0;
 
 
@@ -155,7 +156,8 @@ function cresceCobrinha() {
 			Eixo Y: 200
 		}
 	];*/
-	corpo.id = 'corpo';
+	qtdCorpo += 1;
+	corpo.id = `corpo${qtdCorpo}`;
 
 
 	corpo.style.marginLeft = "200px";
