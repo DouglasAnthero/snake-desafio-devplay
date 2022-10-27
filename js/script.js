@@ -150,6 +150,9 @@ function posicao(elemento) {
 
 function cresceCobrinha() {
 	const corpo = cabeca.cloneNode(true);
+	const container = document.getElementById('container');
+
+	container.appendChild(corpo);
 	/*posicaoCorpo = [
 		{
 			Eixo X: 200,
@@ -159,12 +162,12 @@ function cresceCobrinha() {
 	qtdCorpo += 1;
 	corpo.id = `corpo${qtdCorpo}`;
 
+	
+	corpo.style.marginLeft = "0px";
+	corpo.style.marginTop = "0px";
 
-	corpo.style.marginLeft = "200px";
-	corpo.style.marginTop = "200px";
 
 
-	console.log(corpo);
 
 }
 
