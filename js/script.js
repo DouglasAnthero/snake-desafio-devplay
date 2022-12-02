@@ -19,8 +19,6 @@ let nivel = 1;
 containerJogo.style.height = alturaContainer + 'px';
 containerJogo.style.width = larguraContainer + 'px';
 
-console.log(body.offsetWidth, body.offsetHeight, containerJogo.style.height, containerJogo.style.width);
-
 function movimento(tecla) {
 	teclaPressionada = tecla.keyCode;
 	if (teclaPressionada == '') return false;
@@ -33,6 +31,7 @@ function movimento(tecla) {
 				marginLeft = marginLeft - 50;
 				movimentaCorpo();
 				corpo[0].style.marginLeft = marginLeft + "px";
+				pegaPonto();
 				limpaMovimento();
 				repeteMovimento = setInterval(() => {
 					if (marginLeft > 0) {
@@ -57,6 +56,7 @@ function movimento(tecla) {
 				marginTop = marginTop - 50;
 				movimentaCorpo();
 				corpo[0].style.marginTop = marginTop + "px";
+				pegaPonto();
 				limpaMovimento();
 				repeteMovimento = setInterval(() => {
 					if (marginTop > 0) {
@@ -80,6 +80,7 @@ function movimento(tecla) {
 				marginLeft = marginLeft + 50;
 				movimentaCorpo();
 				corpo[0].style.marginLeft = marginLeft + "px";
+				pegaPonto();
 				limpaMovimento();
 				repeteMovimento = setInterval(() => {
 					if (marginLeft < larguraContainer - 50) {
@@ -104,6 +105,7 @@ function movimento(tecla) {
 				marginTop = marginTop + 50;
 				movimentaCorpo();
 				corpo[0].style.marginTop = marginTop + "px";
+				pegaPonto();
 				limpaMovimento();
 				repeteMovimento = setInterval(() => {
 					if (marginTop < alturaContainer - 50) {
@@ -129,8 +131,15 @@ function removePx(numero) {
 function pegaPonto() {
 	let textScore = "";
 	let textNivel = "";
+	let pontoMarginTop = removePx(ponto.style.marginTop);
+	let corpoMarginTop = removePx(corpo[0].style.marginTop);
+	let pontoMarginLeft = removePx(ponto.style.marginLeft);
+	let corpoMarginLeft = removePx(corpo[0].style.marginLeft);
+
+	console.log(pontoMarginTop, corpoMarginTop, pontoMarginLeft, corpoMarginLeft);
+
 	if (ponto.style.marginLeft === corpo[0].style.marginLeft && ponto.style.marginTop === corpo[0].style.marginTop) {
-		score += 50;
+		score += 10;
 		textScore = score.toString();
 		document.getElementById('score').innerHTML = textScore;
 		pontoNasce(ponto);
@@ -144,15 +153,12 @@ function pegaPonto() {
 }
 
 function pontoNasce(ponto) {
-
 	let randomX = Math.random() * (larguraContainer - 150) + 50;
 	let randomY = Math.random() * (alturaContainer - 150) + 50;
 	let x = Math.round(randomX / 50) * 50;
 	let y = Math.round(randomY / 50) * 50;
 	ponto.style.marginLeft = x + "px";
 	ponto.style.marginTop = y + "px";
-
-	console.log(ponto.style.marginLeft, ponto.style.marginTop);
 }
 
 function posicao(elemento) {
@@ -182,8 +188,18 @@ function limpaMovimento() {
 
 function morreCobrinha() {
 	limpaMovimento();
-	console.log('Você Morreu');
-
+	Swal.fire({
+		title: 'Você morreu!',
+		text: `Você alcançou o nível ${nivel} e sua pontuação foi de ${score} pontos!`,
+		icon: 'error',
+		showCancelButton: false,
+		confirmButtonColor: '#3085d6',
+		confirmButtonText: 'Tentar Novamente'
+	}).then((result) => {
+		if (result.isConfirmed) {
+			location.reload();
+		}
+	})
 }
 
 
