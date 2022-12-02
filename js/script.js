@@ -136,8 +136,6 @@ function pegaPonto() {
 	let pontoMarginLeft = removePx(ponto.style.marginLeft);
 	let corpoMarginLeft = removePx(corpo[0].style.marginLeft);
 
-	console.log(pontoMarginTop, corpoMarginTop, pontoMarginLeft, corpoMarginLeft);
-
 	if (ponto.style.marginLeft === corpo[0].style.marginLeft && ponto.style.marginTop === corpo[0].style.marginTop) {
 		score += 10;
 		textScore = score.toString();
