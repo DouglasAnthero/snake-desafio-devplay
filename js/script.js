@@ -12,11 +12,12 @@ let score = 0;
 let teclaPressionada = 0;
 let repeteMovimento = '';
 let teclaAtivada = 0;
-let larguraContainer = body.offsetWidth;
-let alturaContainer = body.offsetHeight - 50;
+let larguraContainer = Math.floor(body.offsetWidth / 50) * 50;
+let alturaContainer = Math.floor(body.offsetHeight / 50) * 50 - 50;
 let nivel = 1;
 
 containerJogo.style.height = alturaContainer + 'px';
+containerJogo.style.width = larguraContainer + 'px';
 
 console.log(body.offsetWidth, body.offsetHeight, containerJogo.style.height, containerJogo.style.width);
 
@@ -28,63 +29,95 @@ function movimento(tecla) {
 	if (teclaPressionada == esquerda) {
 		if (teclaAtivada !== direita && teclaAtivada !== esquerda) {
 			teclaAtivada = teclaPressionada;
-			marginLeft = marginLeft - 50;
-			movimentaCorpo();
-			corpo[0].style.marginLeft = marginLeft + "px";
-			limpaMovimento();
-			repeteMovimento = setInterval(() => {
+			if (marginLeft > 0) {
 				marginLeft = marginLeft - 50;
 				movimentaCorpo();
 				corpo[0].style.marginLeft = marginLeft + "px";
-				pegaPonto();
-			}, 500 / nivel);
+				limpaMovimento();
+				repeteMovimento = setInterval(() => {
+					if (marginLeft > 0) {
+						marginLeft = marginLeft - 50;
+						movimentaCorpo();
+						corpo[0].style.marginLeft = marginLeft + "px";
+						pegaPonto();
+					} else {
+						morreCobrinha();
+					}
+				}, 500 / nivel);
+			} else {
+				morreCobrinha();
+			};
 		};
 
 	} else if (teclaPressionada == cima) {
 		if (teclaAtivada !== baixo && teclaAtivada !== cima) {
 
 			teclaAtivada = teclaPressionada;
-			marginTop = marginTop - 50;
-			movimentaCorpo();
-			corpo[0].style.marginTop = marginTop + "px";
-			limpaMovimento();
-			repeteMovimento = setInterval(() => {
+			if (marginTop > 0) {
 				marginTop = marginTop - 50;
 				movimentaCorpo();
 				corpo[0].style.marginTop = marginTop + "px";
-				pegaPonto();
-			}, 500 / nivel);
+				limpaMovimento();
+				repeteMovimento = setInterval(() => {
+					if (marginTop > 0) {
+						marginTop = marginTop - 50;
+						movimentaCorpo();
+						corpo[0].style.marginTop = marginTop + "px";
+						pegaPonto();
+					} else {
+						morreCobrinha();
+					};
+				}, 500 / nivel);
+			} else {
+				morreCobrinha();
+			};
 		};
 
 	} else if (teclaPressionada == direita) {
 		if (teclaAtivada !== esquerda && teclaAtivada !== direita) {
 			teclaAtivada = teclaPressionada;
-			marginLeft = marginLeft + 50;
-			movimentaCorpo();
-			corpo[0].style.marginLeft = marginLeft + "px";
-			limpaMovimento();
-			repeteMovimento = setInterval(() => {
+			if (marginLeft < larguraContainer - 50) {
 				marginLeft = marginLeft + 50;
 				movimentaCorpo();
 				corpo[0].style.marginLeft = marginLeft + "px";
-				pegaPonto();
-			}, 500 / nivel)
+				limpaMovimento();
+				repeteMovimento = setInterval(() => {
+					if (marginLeft < larguraContainer - 50) {
+						marginLeft = marginLeft + 50;
+						movimentaCorpo();
+						corpo[0].style.marginLeft = marginLeft + "px";
+						pegaPonto();
+					} else {
+						morreCobrinha();
+					};
+				}, 500 / nivel);
+			} else {
+				morreCobrinha();
+			};
 		};
 
 	} else if (teclaPressionada == baixo) {
 		if (teclaAtivada !== cima && teclaAtivada !== baixo) {
 
 			teclaAtivada = teclaPressionada;
-			marginTop = marginTop + 50;
-			movimentaCorpo();
-			corpo[0].style.marginTop = marginTop + "px";
-			limpaMovimento();
-			repeteMovimento = setInterval(() => {
+			if (marginTop < alturaContainer - 50) {
 				marginTop = marginTop + 50;
 				movimentaCorpo();
 				corpo[0].style.marginTop = marginTop + "px";
-				pegaPonto();
-			}, 500 / nivel);
+				limpaMovimento();
+				repeteMovimento = setInterval(() => {
+					if (marginTop < alturaContainer - 50) {
+						marginTop = marginTop + 50;
+						movimentaCorpo();
+						corpo[0].style.marginTop = marginTop + "px";
+						pegaPonto();
+					} else {
+						morreCobrinha();
+					};
+				}, 500 / nivel);
+			} else {
+				morreCobrinha();
+			};
 		};
 	};
 }
@@ -95,6 +128,7 @@ function removePx(numero) {
 
 function pegaPonto() {
 	let textScore = "";
+	let textNivel = "";
 	if (ponto.style.marginLeft === corpo[0].style.marginLeft && ponto.style.marginTop === corpo[0].style.marginTop) {
 		score += 50;
 		textScore = score.toString();
@@ -103,6 +137,8 @@ function pegaPonto() {
 		cresceCobrinha();
 		if (score % 100 === 0) {
 			nivel++;
+			textNivel = nivel.toString();
+			document.getElementById('nivel').innerHTML = textNivel;
 		}
 	}
 }
@@ -145,13 +181,9 @@ function limpaMovimento() {
 };
 
 function morreCobrinha() {
-	for (i = corpo.length - 1; i > 0; i--) {
-		if (corpo[0].style.marginLeft === corpo[i - 1].style.marginLeft &&
-			corpo[0].style.marginTop === corpo[i - 1].style.marginTop) {
-			limpaMovimento();
-			console.log('Você Morreu');
-		}
-	}
+	limpaMovimento();
+	console.log('Você Morreu');
+
 }
 
 
