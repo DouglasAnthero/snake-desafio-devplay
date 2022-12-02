@@ -1,17 +1,15 @@
-let esquerda = 37,
-	cima = 38,
-	direita = 39,
-	baixo = 40,
-	cabeca = document.getElementById('cabeca'),
-	ponto = document.getElementById('ponto'),
-	marginLeft = removePx(cabeca.style.marginLeft),
-	marginTop = removePx(cabeca.style.marginTop),
-	qtdCorpo = 0,
-	score = 0;
-
-
-var teclaPressionada = 0,
-	teclaAtivada = 0;
+const esquerda = 37;
+const cima = 38;
+const direita = 39;
+const baixo = 40;
+const ponto = document.getElementById('ponto');
+let corpo = [document.getElementById('corpo0')];
+let marginLeft = removePx(corpo[0].style.marginLeft);
+let marginTop = removePx(corpo[0].style.marginTop);
+let score = 0;
+let repeteMovimento = '';
+let teclaPressionada = 0;
+let teclaAtivada = 0;
 
 function movimento(tecla) {
 	teclaPressionada = tecla.keyCode;
@@ -19,110 +17,88 @@ function movimento(tecla) {
 	if (teclaPressionada == '') return false;
 	if (teclaPressionada < 37 || teclaPressionada > 40) return false;
 
-	//console.log(cabeca.style.marginLeft);
-	//console.log(marginLeft);
-
 	if (teclaPressionada == esquerda) {
 		let i = 0;
-		if (teclaAtivada !== teclaPressionada) {
+		if (teclaAtivada !== direita) {
 
 			teclaAtivada = teclaPressionada;
-			//	console.log(teclaAtivada, teclaPressionada);
-			if (teclaAtivada !== direita) {
+			marginLeft = marginLeft - 50;
+			movimentaCorpo();
+			corpo[0].style.marginLeft = marginLeft + "px";
+			limpaMovimento();
+			repeteMovimento = setInterval(() => {
 				marginLeft = marginLeft - 50;
-				cabeca.style.marginLeft = marginLeft + "px";
-
-
-				(function loopIt(i) {
-					setTimeout(function () {
-						if (teclaPressionada === esquerda) {
-							marginLeft = marginLeft - 50;
-							cabeca.style.marginLeft = marginLeft + "px";
-							pegaPonto();
-							if (i < 24 && teclaPressionada === 37) loopIt(i + 1)
-						};
-					}, 500);
-				})(i)
-			};
+				movimentaCorpo();
+				corpo[0].style.marginLeft = marginLeft + "px";
+				pegaPonto();
+			}, 500);
 		};
 	} else if (teclaPressionada == cima) {
 		let i = 0;
-		if (teclaAtivada !== teclaPressionada) {
+		if (teclaAtivada !== baixo) {
 
 			teclaAtivada = teclaPressionada;
 			marginTop = marginTop - 50;
-			cabeca.style.marginTop = marginTop + "px";
-
-			(function loopIt(i) {
-				setTimeout(function () {
-					if (teclaPressionada === 38) {
-						marginTop = marginTop - 50;
-						//	console.log(marginTop, i, teclaPressionada, tecla.keyCode, "baixo");
-						cabeca.style.marginTop = marginTop + "px";
-						pegaPonto();
-						if (i < 24 && teclaPressionada === 38) loopIt(i + 1)
-					};
-				}, 500);
-			})(i)
+			movimentaCorpo();
+			corpo[0].style.marginTop = marginTop + "px";
+			limpaMovimento();
+			morreCobrinha()
+			repeteMovimento = setInterval(() => {
+				marginTop = marginTop - 50;
+				movimentaCorpo();
+				corpo[0].style.marginTop = marginTop + "px";
+				pegaPonto();
+			}, 500);
 		};
 
 
 	} else if (teclaPressionada == direita) {
 		let i = 0;
-		if (teclaAtivada !== teclaPressionada) {
-
+		if (teclaAtivada !== esquerda) {
+			console.log(teclaAtivada);
 			teclaAtivada = teclaPressionada;
+			console.log(teclaAtivada, teclaPressionada);
 			marginLeft = marginLeft + 50;
-			cabeca.style.marginLeft = marginLeft + "px";
-
-
-			(function loopIt(i) {
-				setTimeout(function () {
-					if (teclaPressionada === 39) {
-						marginLeft = marginLeft + 50;
-						//		console.log(marginLeft, i, teclaPressionada, tecla.keyCode, "direita");
-						cabeca.style.marginLeft = marginLeft + "px";
-						pegaPonto();
-						if (i < 24 && teclaPressionada === 39) loopIt(i + 1)
-					};
-				}, 500);
-			})(i)
+			movimentaCorpo();
+			morreCobrinha()
+			corpo[0].style.marginLeft = marginLeft + "px";
+			limpaMovimento();
+			repeteMovimento = setInterval(() => {
+				marginLeft = marginLeft + 50;
+				movimentaCorpo();
+				corpo[0].style.marginLeft = marginLeft + "px";
+				pegaPonto();
+			}, 500)
 		};
 
 
 	} else if (teclaPressionada == baixo) {
 		let i = 0;
-		if (teclaAtivada !== teclaPressionada) {
+		if (teclaAtivada !== cima) {
 
 			teclaAtivada = teclaPressionada;
 			marginTop = marginTop + 50;
-			cabeca.style.marginTop = marginTop + "px";
-
-			(function loopIt(i) {
-				setTimeout(function () {
-					if (teclaPressionada === 40) {
-						marginTop = marginTop + 50;
-						//	console.log(marginTop, i, teclaPressionada, tecla.keyCode, "baixo");
-						cabeca.style.marginTop = marginTop + "px";
-						pegaPonto();
-						if (i < 24 && teclaPressionada === 40) loopIt(i + 1)
-					};
-				}, 500);
-			})(i)
+			movimentaCorpo();
+			morreCobrinha()
+			corpo[0].style.marginTop = marginTop + "px";
+			limpaMovimento();
+			repeteMovimento = setInterval(() => {
+				marginTop = marginTop + 50;
+				movimentaCorpo();
+				corpo[0].style.marginTop = marginTop + "px";
+				pegaPonto();
+			}, 500);
 		};
 	};
-
-
 }
 
 function removePx(numero) {
 	return Number(numero.replace("px", ""));
 }
 
-
 function pegaPonto() {
 	let textScore = "";
-	if (ponto.style.marginLeft === cabeca.style.marginLeft && ponto.style.marginTop === cabeca.style.marginTop) {
+	if (ponto.style.marginLeft === corpo[0].style.marginLeft && ponto.style.marginTop === corpo[0].style.marginTop) {
 		score += 10;
 		textScore = score.toString()
 		document.getElementById('score').innerHTML = textScore;
@@ -132,9 +108,9 @@ function pegaPonto() {
 }
 
 function pontoNasce(ponto) {
-	let larguraTela = document.getElementById('container').offsetWidth,
-		alturaTela = document.getElementById('container').offsetHeight,
-		randomX = Math.random() * (1846 - 50) + 50,
+	let larguraTela = document.getElementById('container').offsetWidth;
+	let alturaTela = document.getElementById('container').offsetHeight;
+	randomX = Math.random() * (1846 - 50) + 50,
 		randomY = Math.random() * (495 - 50) + 50,
 		x = Math.round(randomX / 50) * 50,
 		y = Math.round(randomY / 50) * 50;
@@ -142,36 +118,46 @@ function pontoNasce(ponto) {
 	ponto.style.marginTop = y + "px";
 }
 
-
 function posicao(elemento) {
 	elemento.style.marginLeft = "0px";
 	elemento.style.marginTop = "0px";
 }
 
 function cresceCobrinha() {
-	const corpo = cabeca.cloneNode(true);
+	corpo.push(corpo[0].cloneNode(true));
 	const container = document.getElementById('container');
 
-	container.appendChild(corpo);
-	/*posicaoCorpo = [
-		{
-			Eixo X: 200,
-			Eixo Y: 200
-		}
-	];*/
-	qtdCorpo += 1;
-	corpo.id = `corpo${qtdCorpo}`;
-
-	
-	corpo.style.marginLeft = "0px";
-	corpo.style.marginTop = "0px";
-
-
-
-
+	for (i = 1; i < corpo.length; i++) {
+		container.appendChild(corpo[i]);
+		corpo[i].id = `corpo${i}`;
+	};
 }
 
-posicao(cabeca);
+function movimentaCorpo() {
+	for (i = corpo.length - 1; i > 0; i--) {
+		corpo[i].style.marginLeft = corpo[i - 1].style.marginLeft;
+		corpo[i].style.marginTop = corpo[i - 1].style.marginTop;
+	}
+}
+
+function limpaMovimento() {
+	clearInterval(repeteMovimento);
+};
+
+function morreCobrinha() {
+	for (i = corpo.length - 1; i > 0; i--) {
+		if (corpo[0].style.marginLeft === corpo[i - 1].style.marginLeft &&
+			corpo[0].style.marginTop === corpo[i - 1].style.marginTop) {
+			limpaMovimento();
+			console.log('Você Morreu');
+		}
+	}
+}
+
+cresceCobrinha()
+cresceCobrinha()
+cresceCobrinha()
+posicao(corpo[0]);
 pontoNasce(ponto);
 document.onkeydown = movimento;
 
