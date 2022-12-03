@@ -131,10 +131,6 @@ function removePx(numero) {
 function pegaPonto() {
 	let textScore = "";
 	let textNivel = "";
-	let pontoMarginTop = removePx(ponto.style.marginTop);
-	let corpoMarginTop = removePx(corpo[0].style.marginTop);
-	let pontoMarginLeft = removePx(ponto.style.marginLeft);
-	let corpoMarginLeft = removePx(corpo[0].style.marginLeft);
 
 	if (ponto.style.marginLeft === corpo[0].style.marginLeft && ponto.style.marginTop === corpo[0].style.marginTop) {
 		score += 10;
